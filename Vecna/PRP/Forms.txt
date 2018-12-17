@@ -1,0 +1,280 @@
+*** Settings ***
+Suite Setup       Open Browser    ${url}    browser=firefox
+Suite Teardown    Close browser
+Library           Selenium2Library
+
+*** Variables ***
+${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
+
+*** Test Cases ***
+General Information
+    [Tags]    Tag1
+    HSU Landing page
+    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[8]
+    click button    id=saveAndContinue
+    sleep    2 sec
+    select from list by value    id=w26    1980551
+    select from list by value    id=w8    1980541
+    select from list by value    id=w10    196019
+    select from list by value    id=w12    1980541
+    Input Text    id=w30    Ashish
+    Input Text    id=w34    Ashish
+    Input Text    id=w36    Ashish
+    select from list by value    id=w18    1990754
+    select from list by value    id=w22    1990759
+    click button    id=saveAndContinue
+    sleep    5 sec
+
+Basic Socioeconomic
+    [Tags]    Tag2
+    Comment    HSU Landing page
+    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
+    select from list by value    id=w8    50007
+    select from list by value    id=w12    50007
+    select from list by value    id=w16    50007
+    select from list by value    id=w20    50007
+    select from list by value    id=w24    50007
+    select from list by value    id=w28    50053
+    select from list by value    id=w32    50079
+    select from list by value    id=w36    50097
+    select from list by value    id=w40    50097
+    select from list by value    id=w44    50079
+    select from list by value    id=w48    50079
+    select from list by value    id=w52    50079
+    click Button    id=btnSaveRedirectConditionsForm
+    sleep    5 sec
+
+Condition
+    [Tags]    tag3
+    Comment    HSU Landing page
+    Comment    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[10]
+    select from list by value    id=w8    347044
+    sleep    1 sec
+    select from list by value    id=w10    347045
+    sleep    1 sec
+    select from list by value    id=w12    347047
+    sleep    1 sec
+    select from list by value    id=w14    347226
+    sleep    1 sec
+    select from list by value    id=w16    347054
+    sleep    1 sec
+    select from list by value    id=w18    347171
+    sleep    1 sec
+    select from list by value    id=w20    347177
+    sleep    1 sec
+    select from list by value    id=w22    347181
+    select from list by value    id=w248    1970482
+    select from list by value    id=w250    1970528
+    click button    id=saveAndContinue
+    sleep    5 sec
+
+Stump
+    [Tags]    Tag4
+    Comment    HSU Landing page
+    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[1]
+    select from list by value    xpath=.//*[@id='w8']    174525
+    select from list by value    xpath=.//*[@id='w10']    174529
+    select from list by value    xpath=.//*[@id='w12']    1066
+    select from list by value    xpath=.//*[@id='w16']    1066
+    select from list by value    xpath=.//*[@id='w20']    1066
+    select from list by value    xpath=.//*[@id='w24']    1066
+    select from list by value    xpath=.//*[@id='w28']    1066
+    select from list by value    xpath=.//*[@id='w32']    1066
+    select from list by value    xpath=.//*[@id='w34']    174509
+    select from list by value    xpath=.//*[@id='w36']    1066
+    select from list by value    xpath=.//*[@id='w40']    1066
+    select from list by value    xpath=.//*[@id='w44']    1066
+    click button    xpath=.//*[@id='saveContinueButton']
+    sleep    5 sec
+
+Muscle & ROM
+    [Tags]    Tag5
+    Comment    HSU Landing page
+    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[2]
+    Select from list by value    xpath=.//*[@id='w16']    186005
+    Select from list by value    xpath=.//*[@id='w40']    186005
+    Select from list by value    xpath=.//*[@id='w172']    186058
+    @{ashish}=    get list items    id=w16
+    click button    xpath=.//*[@id='saveAndContinue']
+    Log to console    @{ashish}
+    sleep    5 sec
+
+Pain assessment
+    [Tags]    Tag6
+    HSU Landing page
+    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[3]
+    Input Text    xpath=.//*[@id='w8']    5
+    Select from list by value    id=w10    1990633
+    Select from list by value    id=w12    1990624
+    sleep    2 sec
+    Select from list by value    id=w14    1990630
+    Select from list by value    id=w16    1065
+    Select from list by value    id=w18    1065
+    click Button    id=showTemplatesdrawingEditor
+    Click Element    Xpath=.//*[@id='templatesDialogdrawingEditor']/div[1]/div[1]/div/div/table/tbody/tr[2]/td[2]
+    sleep    2 sec
+    click image    xpath=.//*[@id='templateImagedrawingEditor']
+    set window size    1380    1000
+    click Element    id=doneMovingdrawingEditor
+    maximize browser window
+    click Element    id=saveImagedrawingEditor
+    sleep    2 sec
+    Comment    Input Text    xpath=.//*[@id='marker1_data']/textarea    ashish
+    Comment    click link    xpath=.//*[@id='marker1_data']/span/a[1]
+    click Button    id=formSubmission
+    sleep    10 sec
+
+Functional Activity
+    [Tags]    Tag7
+    Comment    HSU Landing page
+    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[4]
+    Select from list by value    xpath=.//*[@id='w8']    50053
+    Select from list by value    xpath=.//*[@id='w12']    50053
+    Select from list by value    xpath=.//*[@id='w16']    50053
+    Select from list by value    xpath=.//*[@id='w20']    50053
+    Select from list by value    xpath=.//*[@id='w24']    50053
+    Select from list by value    xpath=.//*[@id='w28']    50053
+    Select from list by value    xpath=.//*[@id='w32']    50053
+    Select from list by value    xpath=.//*[@id='w36']    50053
+    Select from list by value    xpath=.//*[@id='w40']    196005
+    Select from list by value    xpath=.//*[@id='w44']    196005
+    Select from list by value    xpath=.//*[@id='w48']    196005
+    Select from list by value    xpath=.//*[@id='w52']    196005
+    click Button    xpath=.//*[@id='formSaveAndContinue']
+    sleep    5 sec
+
+Assessment Outcome & Goal Setting
+    [Tags]    Tag8
+    Comment    HSU Landing page
+    Comment    click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[5]
+    ${outcomesummary}    Input Text    xpath=.//*[@id='w8']    Testing1
+    ${teamobjective}    Input Text    xpath=.//*[@id='w10']    Testing2
+    Click Button    xpath=.//*[@id='btnBasicServicePlan']
+    sleep    5 sec
+
+Basic Service Plan
+    [Tags]    Tag9
+    HSU Landing page
+    ${name}=    Get Text    xpath=.//*[@id='page-content-wrapper']/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
+    click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[7]
+    ${nameonBasicForm}    GetText    xpath=.//*[@id='htmlform']/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
+    Should be equal    ${name}    ${nameonBasicForm}
+    select from list by value    xpath=.//*[@id='w10']    196032
+    sleep    2 sec
+    select from list by value    xpath=.//*[@id='w12']    196056
+    click Button    xpath=.//*[@id='btnConsentVerballyObtained']
+
+Add Clinical Consent
+
+Primary Financial Assessment
+    [Tags]    Tag10
+    HSU Landing page
+    click Link    xpath=//*[@id="page-content-wrapper"]/div/div/div[5]/div[1]/div/div[2]/div/a[9]
+    input Text    id=w14    55
+    Select from list by value    id=w106    1065
+    ${Totalcost}    get value    id=w104
+    set suite variable    ${Totalcost}    55
+    set global variable    ${Totalcost}    55
+    click button    id=makeSecondaryFinancialAssessment
+    Log to console    ${Totalcost}
+    sleep    5 sec
+
+Secondary Financial Assessment
+    [Tags]    Tag11
+    Comment    HSU Landing page
+    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[12]
+    Input text    id=w8    10
+    Input text    id=w10    10
+    Input text    id=w12    10
+    Input text    id=w14    10
+    Comment    Element should be disabled    id=w16
+    Input text    id=w18    10
+    Input text    id=w20    10
+    Input text    id=w22    10
+    select checkbox    id=w26
+    select checkbox    id=w28
+    select from list by value    id=w46    1066
+    select from list by value    id=w82    1066
+    Input Text    id=w86    66
+    click Button    id=confirmAssessment
+    sleep    5 sec
+
+Financing Decision
+    [Tags]    Tag12
+    Comment    HSU landing page
+    Comment    Click link    xpath=//*[@id="page-content-wrapper"]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
+    ${totalcostfin}=    get table cell    id=pfaTable    2    2
+    should be equal as integers    ${Totalcost}    ${totalcostfin}
+    Log to console    ${totalcostfin}
+    select from list by value    id=w8    1065
+    select from list by value    id=w20    1065
+    select from list by value    id=w32    1065
+    select from list by value    id=w44    1065
+    input text    id=w18    15
+    input text    id=w30    25
+    input text    id=w42    45
+    select from list by value    id=w10    1980603
+    select from list by value    id=w22    1980603
+    select from list by value    id=w34    1980603
+    select from list by value    id=w46    1980603
+    input text    id=w12    25
+    input text    id=w24    35
+    input text    id=w36    45
+    input text    id=w48    55
+    select from list by value    id=w16    1980605
+    select from list by value    id=w28    1980605
+    select from list by value    id=w40    1980606
+    select from list by value    id=w52    1980606
+    click button    id=pendingFinancing
+    wait until page contains    Encounters
+
+Registration
+    [Tags]    ta
+    Login
+    click Link    xpath=/html/body/div[1]/div[1]/nav/ul/li/a[10]
+    Select from list by value    id=legalBasis-field    Public interest
+    click element    id=btn-step-2
+    @{ashish}=    get list items    xpath=/html/body/div[1]/div[2]/div/div[1]/div[3]/form/div[2]/div/div[1]/div[5]/div/p/div/div
+    Log to console    @{ashish}
+
+*** Keywords ***
+HSU Landing page
+    [Tags]
+    Login
+    Click Link    xpath=.//*[@id='spy']/ul/li/a[5]
+    Sleep    2 sec
+    click element    xpath=.//*[@id='hsulist']/tbody/tr[1]/td[2]
+    sleep    1 sec
+    ${expression}=    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
+    run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
+    ...    ELSE    Program enrollment
+    ${expression1}=    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
+    run keyword if    ${expression1}    get title
+    ...    ELSE    visit start
+
+Login
+    Maximize Browser Window
+    Input Text    xpath=.//*[@id='username']    admin
+    Input Text    xpath=.//*[@id='password']    Admin123
+    select from list by value    id=sessionLocation    12
+    select from list by value    id=facilityLocation    53
+    click Button    xpath=.//*[@id='loginButton']
+
+Program enrollment
+    click button    xpath=/html/body/div[1]/div[2]/div/div/button
+    wait until page contains    Enroll HSU to program    error=no such element exists
+    select from list by value    id=programId-field    2
+    input text    id=enrollmentDate-display    02/05/2015
+    click button    id=enrollProgramBtn
+    sleep    2 sec
+    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
+
+visit start
+    Mouse over    id=dLabel
+    click element    id=dLabel
+    mouse down    id=org.openmrs.module.coreapps.createVisit
+    click element    id=org.openmrs.module.coreapps.createVisit
+    wait until page contains    Start a visit
+    click button    id=start-visit-with-visittype-confirm
+    sleep    3 sec
+    go back
