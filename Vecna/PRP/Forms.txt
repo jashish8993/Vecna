@@ -201,10 +201,9 @@ Secondary Financial Assessment
 
 Financing Decision
     [Tags]    Tag12
-    Comment    HSU landing page
     Comment    Click link    xpath=//*[@id="page-content-wrapper"]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
     ${totalcostfin}=    get table cell    id=pfaTable    2    2
-    should be equal as integers    ${Totalcost}    ${totalcostfin}
+    should be equal as integers    ${totalcostfin}    ${Totalcost}
     Log to console    ${totalcostfin}
     select from list by value    id=w8    1065
     select from list by value    id=w20    1065
