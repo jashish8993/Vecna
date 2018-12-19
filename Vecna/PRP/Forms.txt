@@ -5,6 +5,7 @@ Library           Selenium2Library
 
 *** Variables ***
 ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
+@{Muscle}         Select    Hard    Soft
 
 *** Test Cases ***
 General Information
@@ -89,14 +90,16 @@ Stump
 
 Muscle & ROM
     [Tags]    Tag5
-    Comment    HSU Landing page
-    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[2]
+    HSU Landing page
+    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[2]
     Select from list by value    xpath=.//*[@id='w16']    186005
     Select from list by value    xpath=.//*[@id='w40']    186005
     Select from list by value    xpath=.//*[@id='w172']    186058
-    @{ashish}=    get list items    id=w16
+    @{ashish}    get list items    id=w16
+    ${ashish}    Evaluate    @{ashish}==@{Muscle}
+    Return from keyword if    ${ashish}=='True'
     click button    xpath=.//*[@id='saveAndContinue']
-    Log to console    @{ashish}
+    Comment    Log to console    @{ashish}
     sleep    5 sec
 
 Pain assessment
@@ -173,8 +176,8 @@ Primary Financial Assessment
     input Text    id=w14    55
     Select from list by value    id=w106    1065
     ${Totalcost}    get value    id=w104
-    set suite variable    ${Totalcost}    55
-    set global variable    ${Totalcost}    55
+    set suite variable    ${Totalcost}
+    set global variable    ${Totalcost}
     click button    id=makeSecondaryFinancialAssessment
     Log to console    ${Totalcost}
     sleep    5 sec
@@ -244,10 +247,10 @@ HSU Landing page
     Sleep    2 sec
     click element    xpath=.//*[@id='hsulist']/tbody/tr[1]/td[2]
     sleep    1 sec
-    ${expression}=    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
+    ${expression}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     ...    ELSE    Program enrollment
-    ${expression1}=    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
+    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
     run keyword if    ${expression1}    get title
     ...    ELSE    visit start
 
