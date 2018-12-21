@@ -4,8 +4,10 @@ Suite Teardown    Close browser
 Library           Selenium2Library
 
 *** Variables ***
-${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
-@{Muscle}         Select    Hard    Soft
+${url}            http://icrcdemo.vecnacares.org/openmrs/login.htm
+@{Muscle_rangeofmotion}    Select    Hard    Soft
+@{muscle_musclestrength}    Select    0    1    2    3    4    5
+@{Muscle_stability}    Select    Yes    N
 
 *** Test Cases ***
 General Information
@@ -91,16 +93,25 @@ Stump
 Muscle & ROM
     [Tags]    Tag5
     HSU Landing page
-    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[2]
+    click link    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[2]
     Select from list by value    xpath=.//*[@id='w16']    186005
     Select from list by value    xpath=.//*[@id='w40']    186005
     Select from list by value    xpath=.//*[@id='w172']    186058
     @{ashish}    get list items    id=w16
-    ${ashish}    Evaluate    @{ashish}==@{Muscle}
-    Return from keyword if    ${ashish}=='True'
+    @{ashish1}    get list items    id=w12
+    @{ashish2}    get list items    id=w80
+    ${ashish}    Evaluate    @{ashish}==@{Muscle_rangeofmotion}
+    ${ashish1}    Evaluate    @{ashish1}==@{muscle_musclestrength}
+    ${ashish2}    Evaluate    @{ashish2}==@{Muscle_stability}
+    run keyword if    ${ashish}=='True'    get title
+    ...    ELSE    fail    ${ashish} fails
+    Return from keyword if    ${ashish1}=='True'
+    Return from Keyword if    ${ashish2}=='True'    get title
+    ...    ELSE    fail    msg=@{ashish2} fails
     click button    xpath=.//*[@id='saveAndContinue']
     Comment    Log to console    @{ashish}
     sleep    5 sec
+    run keyword and return
 
 Pain assessment
     [Tags]    Tag6
@@ -230,15 +241,6 @@ Financing Decision
     click button    id=pendingFinancing
     wait until page contains    Encounters
 
-Registration
-    [Tags]    ta
-    Login
-    click Link    xpath=/html/body/div[1]/div[1]/nav/ul/li/a[10]
-    Select from list by value    id=legalBasis-field    Public interest
-    click element    id=btn-step-2
-    @{ashish}=    get list items    xpath=/html/body/div[1]/div[2]/div/div[1]/div[3]/form/div[2]/div/div[1]/div[5]/div/p/div/div
-    Log to console    @{ashish}
-
 *** Keywords ***
 HSU Landing page
     [Tags]
@@ -250,7 +252,7 @@ HSU Landing page
     ${expression}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     ...    ELSE    Program enrollment
-    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[11]
+    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[1]
     run keyword if    ${expression1}    get title
     ...    ELSE    visit start
 
