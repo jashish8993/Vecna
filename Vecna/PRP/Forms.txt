@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       Open Browser    ${url}    browser=firefox
-Suite Teardown    Close all \ browser
+Suite Teardown    Close all browsers
 Library           Selenium2Library
 
 *** Variables ***
@@ -14,8 +14,8 @@ General Information
     [Tags]    Tag1
     HSU Landing page
     Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[8]
-    click button    id=saveAndContinue
-    sleep    2 sec
+    Comment    click button    id=saveAndContinue
+    Comment    sleep    2 sec
     select from list by value    id=w26    1980551
     select from list by value    id=w8    1980541
     select from list by value    id=w10    196019
@@ -30,8 +30,8 @@ General Information
 
 Basic Socioeconomic
     [Tags]    Tag2
-    Comment    HSU Landing page
-    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
+    HSU Landing page
+    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
     select from list by value    id=w8    50007
     select from list by value    id=w12    50007
     select from list by value    id=w16    50007
@@ -51,6 +51,7 @@ Condition
     [Tags]    tag3
     Comment    HSU Landing page
     Comment    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[10]
+    sleep    2 sec
     select from list by value    id=w8    347044
     sleep    1 sec
     select from list by value    id=select-conditionType-1    347045
@@ -92,8 +93,9 @@ Stump
 
 Muscle & ROM
     [Tags]    Tag5
+    Comment    Open Browser    ${url}    browser=firefox
     Comment    HSU Landing page
-    Comment    click link    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[2]
+    Comment    click link    partial link=Muscle and ROM Evaluation
     Select from list by value    xpath=.//*[@id='w16']    186005
     Select from list by value    xpath=.//*[@id='w40']    186005
     Select from list by value    xpath=.//*[@id='w172']    186058
@@ -103,15 +105,15 @@ Muscle & ROM
     ${ashish}    Evaluate    @{ashish}==@{Muscle_rangeofmotion}
     ${ashish1}    Evaluate    @{ashish1}==@{muscle_musclestrength}
     ${ashish2}    Evaluate    @{ashish2}==@{Muscle_stability}
-    run keyword if    ${ashish}=='True'    get title
-    ...    ELSE    fail    ${ashish} fails
-    Return from keyword if    ${ashish1}=='True'
-    Return from Keyword if    ${ashish2}=='True'    get title
-    ...    ELSE    fail    msg=@{ashish2} fails
+    run keyword if    ${ashish}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${ashish1}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${ashish2}    get title
+    ...    ELSE    Fail    msg=here is failure
     click button    xpath=.//*[@id='saveAndContinue']
     Comment    Log to console    @{ashish}
     sleep    5 sec
-    run keyword and return
 
 Pain assessment
     [Tags]    Tag6
@@ -168,10 +170,10 @@ Assessment Outcome & Goal Setting
 
 Basic Service Plan
     [Tags]    Tag9
-    Open Browser    ${url}    browser=firefox
-    HSU Landing page
+    Comment    Open Browser    ${url}    browser=firefox
+    Comment    HSU Landing page
     ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
-    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
+    Comment    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
     ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
     Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
@@ -243,6 +245,13 @@ Financing Decision
     click button    id=pendingFinancing
     wait until page contains    Encounters
 
+Registration test
+    [Tags]    ta
+    Login
+    HSU Registration legal
+    HSU Registration consent
+    HSU registration Anonymous
+
 *** Keywords ***
 HSU Landing page
     [Tags]
@@ -284,3 +293,74 @@ visit start
     click button    id=start-visit-with-visittype-confirm
     sleep    3 sec
     go back
+
+HSU Registration Anonymous
+    click link    partial link=HSU Registration New
+    sleep    3 sec
+    select radio button    legalBasis    Anonymous
+    click button    id=next-step-1
+    click button    id=cnfRegAnother
+    sleep    2 sec
+
+HSU Registration consent
+    click link    partial link=HSU Registration New
+    sleep    3 sec
+    select radio button    legalBasis    Consent
+    click button    id=next-step-1
+    select from list by value    id=confirmConsent-field    registrationapp.person.confirm_paperconsent
+    click button    id=confirmConsentBtn
+    click button    id=confirmLegalBasis
+    input text    id=fName-field    Ashish
+    input text    id=mName-field    Kumar
+    input text    id=lName-field    Jain
+    input text    id=birthDate-display    15/02/2017
+    select from list by value    id=gender-field    M
+    select checkbox    id=approximate-field
+    select from list by value    id=civilStatus-field    registrationapp.person.civil_status.single
+    select from list by value    id=benfPoplationType-field    registrationapp.person.benf.resident
+    input text    id=telephone-field    95656565656
+    input text    id=email-field    a@a.com
+    input text    id=languages-field    Hindi
+    select checkbox    id=not_applicable
+    clear element text    id=adminLevel4-field
+    input text    id=adminLevel4-field    level4
+    input text    id=street-field    street
+    select from list by value    id=relationship_type-0    8d919b58-c2cc-11de-8d13-0010c6dffd0f-B
+    input text    id=relative_name-0    Ashish
+    input text    id=relative_phone-0    54545454545545
+    click button     id=next-step-3
+    sleep    3 sec
+    click button    id=cnfRegAnother
+    sleep    5 sec
+
+HSU Registration Legal
+    click link    partial link=HSU Registration New
+    sleep    3 sec
+    select radio button    legalBasis    Legitimate interest of the ICRC
+    click button    id=next-step-1
+    input text    id=fName-field    Ashish
+    input text    id=mName-field    Kumar
+    input text    id=lName-field    Jain
+    input text    id=birthDate-display    22/01/2016
+    select from list by value    id=gender-field    M
+    select checkbox    id=approximate-field
+    select from list by value    id=civilStatus-field    registrationapp.person.civil_status.single
+    select from list by value    id=benfPoplationType-field    registrationapp.person.benf.resident
+    input text    id=telephone-field    95656565656
+    input text    id=email-field    a@a.com
+    input text    id=languages-field    Hindi
+    select checkbox    id=not_applicable
+    clear element text    id=adminLevel4-field
+    input text    id=adminLevel4-field    level4
+    input text    id=street-field    street
+    select from list by value    id=relationship_type-0    8d919b58-c2cc-11de-8d13-0010c6dffd0f-B
+    input text    id=relative_name-0    Ashish
+    input text    id=relative_phone-0    54545454545545
+    click button     id=next-step-3
+    sleep    3 sec
+    Comment    ${popup}    run keyword and return status    page should contain    Print HSU ID Card
+    Comment    run keyword if    ${popup}    click button    id=cnfRegAnother    ElSE    click button
+    ...    xpath=/html/body/div[1]/div[2]/div/div/div[8]/div/div/div/div[3]/button
+    sleep    3 sec
+    click button    id=cnfRegAnother
+    sleep    5 sec
