@@ -1,19 +1,19 @@
 *** Settings ***
 Suite Setup       Open Browser    ${url}    browser=firefox
-Suite Teardown    Close browser
+Suite Teardown    Close all \ browser
 Library           Selenium2Library
 
 *** Variables ***
-${url}            http://icrcdemo.vecnacares.org/openmrs/login.htm
+${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
 @{Muscle_rangeofmotion}    Select    Hard    Soft
 @{muscle_musclestrength}    Select    0    1    2    3    4    5
-@{Muscle_stability}    Select    Yes    N
+@{Muscle_stability}    Select    Yes    No
 
 *** Test Cases ***
 General Information
     [Tags]    Tag1
     HSU Landing page
-    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[8]
+    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[8]
     click button    id=saveAndContinue
     sleep    2 sec
     select from list by value    id=w26    1980551
@@ -53,21 +53,21 @@ Condition
     Comment    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[10]
     select from list by value    id=w8    347044
     sleep    1 sec
-    select from list by value    id=w10    347045
+    select from list by value    id=select-conditionType-1    347045
     sleep    1 sec
-    select from list by value    id=w12    347047
+    select from list by value    id=select-levelSelection-1    347047
     sleep    1 sec
-    select from list by value    id=w14    347226
+    select from list by value    id=w10    347226
     sleep    1 sec
-    select from list by value    id=w16    347054
+    select from list by value    id=select-causeSelection-1    347054
     sleep    1 sec
-    select from list by value    id=w18    347171
+    Comment    select from list by value    id=select-causeSelection-1    347171
     sleep    1 sec
-    select from list by value    id=w20    347177
+    Comment    select from list by value    id=w12    347177
     sleep    1 sec
-    select from list by value    id=w22    347181
-    select from list by value    id=w248    1970482
-    select from list by value    id=w250    1970528
+    Comment    select from list by value    id=w14    347181
+    select from list by value    id=w158    1970482
+    select from list by value    id=w160    1970528
     click button    id=saveAndContinue
     sleep    5 sec
 
@@ -92,8 +92,8 @@ Stump
 
 Muscle & ROM
     [Tags]    Tag5
-    HSU Landing page
-    click link    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[2]
+    Comment    HSU Landing page
+    Comment    click link    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[2]
     Select from list by value    xpath=.//*[@id='w16']    186005
     Select from list by value    xpath=.//*[@id='w40']    186005
     Select from list by value    xpath=.//*[@id='w172']    186058
@@ -115,8 +115,8 @@ Muscle & ROM
 
 Pain assessment
     [Tags]    Tag6
-    HSU Landing page
-    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[3]
+    Comment    HSU Landing page
+    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[3]
     Input Text    xpath=.//*[@id='w8']    5
     Select from list by value    id=w10    1990633
     Select from list by value    id=w12    1990624
@@ -168,10 +168,11 @@ Assessment Outcome & Goal Setting
 
 Basic Service Plan
     [Tags]    Tag9
+    Open Browser    ${url}    browser=firefox
     HSU Landing page
-    ${name}=    Get Text    xpath=.//*[@id='page-content-wrapper']/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
-    click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[7]
-    ${nameonBasicForm}    GetText    xpath=.//*[@id='htmlform']/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
+    ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
+    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
+    ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
     Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
     sleep    2 sec
@@ -182,6 +183,7 @@ Add Clinical Consent
 
 Primary Financial Assessment
     [Tags]    Tag10
+    Open Browser    ${url}    browser=firefox
     HSU Landing page
     click Link    xpath=//*[@id="page-content-wrapper"]/div/div/div[5]/div[1]/div/div[2]/div/a[9]
     input Text    id=w14    55
@@ -252,7 +254,7 @@ HSU Landing page
     ${expression}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     ...    ELSE    Program enrollment
-    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[4]/div[1]/div/div[2]/div/a[1]
+    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[1]
     run keyword if    ${expression1}    get title
     ...    ELSE    visit start
 
