@@ -1,4 +1,5 @@
 *** Settings ***
+Documentation     tag1,tag2,tag3,tag4,tag5,tag6,tag7,tag8,tag9,tag10,tag11,tag12
 Suite Setup       Open Browser    ${url}    browser=firefox
 Suite Teardown    Close all browsers
 Library           Selenium2Library
@@ -8,6 +9,13 @@ ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
 @{Muscle_rangeofmotion}    Select    Hard    Soft
 @{muscle_musclestrength}    Select    0    1    2    3    4    5
 @{Muscle_stability}    Select    Yes    No
+@{Stump_stumpsize}    Please Select    Long    Medium    Short
+@{Stump_stumpshape}    Please Select    Conical    Cylindrical    Bulbous
+@{Stump_muscletone}    Please Select    Normal    Increased    Decreased
+@{Stump_Yesno}    Please Select    Yes    No
+@{General_assessmenttype}    Please Select    Initial    Intermediate    Final
+@{General_currentoccupation}    Please Select    Armed Forces    Farmer/Fisherman    Non-qualified Worker    Technician/Professional    Office Worker    Retired
+...               Student    Unemployed/Non-Active    Student    Housekeeper    Deminer    Infant/Child/Attending School
 
 *** Test Cases ***
 General Information
@@ -16,22 +24,30 @@ General Information
     Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[8]
     Comment    click button    id=saveAndContinue
     Comment    sleep    2 sec
-    select from list by value    id=w26    1980551
+    clear element text    id=assessment_date-obs
+    Input Text    id=assessment_date-obs    15/02/2014
+    select from list by value    id=w24    1980551
     select from list by value    id=w8    1980541
     select from list by value    id=w10    196019
     select from list by value    id=w12    1980541
-    Input Text    id=w30    Ashish
-    Input Text    id=w34    Ashish
+    Input Text    id=w32    Ashish-Pysiotherapist
+    Input Text    id=w34    Ashish-Orthotist
     Input Text    id=w36    Ashish
+    Input Text    id=w28    Ashish-doctor
+    Select from list by value    id=w16    1990749
     select from list by value    id=w18    1990754
     select from list by value    id=w22    1990759
+    @{Data1}    Get list items    id=w24
+    ${Data1}    Evaluate    @{General_assessmenttype}==@{Data1}
+    run keyword if    ${Data1}    get title
+    ...    ELSE    Fail    msg=here is failure
     click button    id=saveAndContinue
     sleep    5 sec
 
 Basic Socioeconomic
     [Tags]    Tag2
-    HSU Landing page
-    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
+    Comment    HSU Landing page
+    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
     select from list by value    id=w8    50007
     select from list by value    id=w12    50007
     select from list by value    id=w16    50007
@@ -53,7 +69,7 @@ Condition
     Comment    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[10]
     sleep    2 sec
     select from list by value    id=w8    347044
-    sleep    1 sec
+    sleep    2 sec
     select from list by value    id=select-conditionType-1    347045
     sleep    1 sec
     select from list by value    id=select-levelSelection-1    347047
@@ -88,6 +104,54 @@ Stump
     select from list by value    xpath=.//*[@id='w36']    1066
     select from list by value    xpath=.//*[@id='w40']    1066
     select from list by value    xpath=.//*[@id='w44']    1066
+    @{data1}    get list items    id=w8
+    @{data2}    get list items    id=w10
+    @{data3}    get list items    id=w12
+    @{data4}    get list items    id=w16
+    @{data5}    get list items    id=w20
+    @{data6}    get list items    id=w24
+    @{data7}    get list items    id=w28
+    @{data8}    get list items    id=w32
+    @{data9}    get list items    id=w34
+    @{data10}    get list items    id=w36
+    @{data11}    get list items    id=w40
+    @{data12}    get list items    id=w44
+    ${data1}    Evaluate    @{data1} == @{Stump_stumpsize}
+    ${data2}    Evaluate    @{data2}==@{Stump_stumpshape}
+    ${data3}    Evaluate    @{data3}==@{Stump_Yesno}
+    ${data4}    Evaluate    @{data4}==@{Stump_Yesno}
+    ${data5}    Evaluate    @{data5}==@{Stump_Yesno}
+    ${data6}    Evaluate    @{data6}==@{Stump_Yesno}
+    ${data7}    Evaluate    @{data7}==@{Stump_Yesno}
+    ${data8}    Evaluate    @{data8}==@{Stump_Yesno}
+    ${data9}    Evaluate    @{data9}==@{Stump_muscletone}
+    ${data10}    Evaluate    @{data10}==@{Stump_Yesno}
+    ${data11}    Evaluate    @{data11}==@{Stump_Yesno}
+    ${data12}    Evaluate    @{data12}==@{Stump_Yesno}
+    run keyword if    ${data1}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data2}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data3}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data4}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data5}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data6}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data7}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data8}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data9}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data10}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data11}    get title
+    ...    ELSE    Fail    msg=here is failure
+    run keyword if    ${data12}    get title
+    ...    ELSE    Fail    msg=here is failure
     click button    xpath=.//*[@id='saveContinueButton']
     sleep    5 sec
 
@@ -170,10 +234,10 @@ Assessment Outcome & Goal Setting
 
 Basic Service Plan
     [Tags]    Tag9
-    Comment    Open Browser    ${url}    browser=firefox
-    Comment    HSU Landing page
+    Open Browser    ${url}    browser=firefox
+    HSU Landing page
     ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
-    Comment    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
+    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
     ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
     Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
@@ -182,6 +246,11 @@ Basic Service Plan
     click Button    xpath=.//*[@id='btnConsentVerballyObtained']
 
 Add Clinical Consent
+    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]/a
+    click link    partial link=Add Clinical Consent
+    click button    id=digitalClinicalConsentProcessBtn
+    click button    id=saveImagedrawingEditor
+    click button    id=submitButton confirm
 
 Primary Financial Assessment
     [Tags]    Tag10
@@ -261,9 +330,11 @@ HSU Landing page
     click element    xpath=.//*[@id='hsulist']/tbody/tr[1]/td[2]
     sleep    1 sec
     ${expression}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
+    sleep    2 sec
     run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     ...    ELSE    Program enrollment
-    ${expression1}    run keyword and return status    element should be visible    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[1]
+    sleep    2 sec
+    ${expression1}    run keyword and return status    element should be visible    partial link=Stump Evaluation
     run keyword if    ${expression1}    get title
     ...    ELSE    visit start
 
@@ -272,7 +343,7 @@ Login
     Input Text    xpath=.//*[@id='username']    admin
     Input Text    xpath=.//*[@id='password']    Admin123
     select from list by value    id=sessionLocation    12
-    select from list by value    id=facilityLocation    53
+    select from list by value    id=facilityLocation    54
     click Button    xpath=.//*[@id='loginButton']
 
 Program enrollment
@@ -328,7 +399,7 @@ HSU Registration consent
     select from list by value    id=relationship_type-0    8d919b58-c2cc-11de-8d13-0010c6dffd0f-B
     input text    id=relative_name-0    Ashish
     input text    id=relative_phone-0    54545454545545
-    click button     id=next-step-3
+    click button    id=next-step-3
     sleep    3 sec
     click button    id=cnfRegAnother
     sleep    5 sec
@@ -356,7 +427,7 @@ HSU Registration Legal
     select from list by value    id=relationship_type-0    8d919b58-c2cc-11de-8d13-0010c6dffd0f-B
     input text    id=relative_name-0    Ashish
     input text    id=relative_phone-0    54545454545545
-    click button     id=next-step-3
+    click button    id=next-step-3
     sleep    3 sec
     Comment    ${popup}    run keyword and return status    page should contain    Print HSU ID Card
     Comment    run keyword if    ${popup}    click button    id=cnfRegAnother    ElSE    click button
