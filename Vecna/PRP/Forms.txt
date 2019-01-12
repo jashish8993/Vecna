@@ -35,8 +35,14 @@ General Information
     select from list by value    id=w10    196019
     select from list by value    id=w12    1980541
     click element    id=doctorUser_field_chosen
-    select from list by index    id=physiotherapistUser_field_chosen    2
-    select from list by index    id=prosthetistUser_field_chosen    2
+    mouse down    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[9]/div/div/p/div/div/ul/li[3]
+    Click Element    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[9]/div/div/p/div/div/ul/li[3]
+    Click Element    id=physiotherapistUser_field_chosen
+    mouse down    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[11]/div/div/p/div/div/ul/li[2]
+    Click Element    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[11]/div/div/p/div/div/ul/li[2]
+    click element    id=prosthetistUser_field_chosen
+    mouse down    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[13]/div/div/p/div/div/ul/li[2]
+    Click Element    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[2]/div[2]/div[13]/div/div/p/div/div/ul/li[2]
     select from list by value    id=w16    1990748
     select from list by value    id=w18    1990753
     select from list by value    id=w20    1990767
@@ -50,8 +56,8 @@ General Information
 
 Basic Socioeconomic
     [Tags]    Tag2
-    HSU Landing page
-    click link    partial link=Basic Socioeconomic Assessment
+    Comment    HSU Landing page
+    Comment    click link    partial link=Basic Socioeconomic Assessment
     select from list by value    id=w8    50007
     select from list by value    id=w12    50007
     select from list by value    id=w16    50007
@@ -71,9 +77,9 @@ Condition
     [Tags]    tag3
     Comment    HSU Landing page
     Comment    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[10]
-    sleep    2 sec
+    sleep    3 sec
     select from list by value    id=w8    347044
-    sleep    2 sec
+    sleep    3 sec
     select from list by value    id=select-conditionType-1    347045
     sleep    1 sec
     select from list by value    id=select-levelSelection-1    347047
@@ -240,10 +246,10 @@ Basic Service Plan
     [Tags]    Tag9
     Comment    Open Browser    ${url}    browser=firefox
     Comment    HSU Landing page
-    ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
+    Comment    ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
     Comment    click Link    partial link=Basic Service Plan
-    ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
-    Should be equal    ${name}    ${nameonBasicForm}
+    Comment    ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
+    Comment    Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
     sleep    2 sec
     select from list by value    xpath=.//*[@id='w12']    196056
