@@ -3,6 +3,10 @@ Documentation     tag1,tag2,tag3,tag4,tag5,tag6,tag7,tag8,tag9,tag10,tag11,tag12
 Suite Setup       Open Browser    ${url}    browser=firefox
 Suite Teardown    Close all browsers
 Library           Selenium2Library
+Library           OperatingSystem
+Library           String
+Library           openpyxl.reader.excel
+Library           ExcelLibrary
 
 *** Variables ***
 ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
@@ -21,7 +25,7 @@ ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
 General Information
     [Tags]    Tag1
     HSU Landing page
-    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[8]
+    Click Link    partial link=General Information
     Comment    click button    id=saveAndContinue
     Comment    sleep    2 sec
     clear element text    id=assessment_date-obs
@@ -30,13 +34,13 @@ General Information
     select from list by value    id=w8    1980541
     select from list by value    id=w10    196019
     select from list by value    id=w12    1980541
-    Input Text    id=w32    Ashish-Pysiotherapist
-    Input Text    id=w34    Ashish-Orthotist
-    Input Text    id=w36    Ashish
-    Input Text    id=w28    Ashish-doctor
-    Select from list by value    id=w16    1990749
-    select from list by value    id=w18    1990754
-    select from list by value    id=w22    1990759
+    click element    id=doctorUser_field_chosen
+    select from list by index    id=physiotherapistUser_field_chosen    2
+    select from list by index    id=prosthetistUser_field_chosen    2
+    select from list by value    id=w16    1990748
+    select from list by value    id=w18    1990753
+    select from list by value    id=w20    1990767
+    select from list by value    id=w22    1990760
     @{Data1}    Get list items    id=w24
     ${Data1}    Evaluate    @{General_assessmenttype}==@{Data1}
     run keyword if    ${Data1}    get title
@@ -46,8 +50,8 @@ General Information
 
 Basic Socioeconomic
     [Tags]    Tag2
-    Comment    HSU Landing page
-    Comment    click link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[6]
+    HSU Landing page
+    click link    partial link=Basic Socioeconomic Assessment
     select from list by value    id=w8    50007
     select from list by value    id=w12    50007
     select from list by value    id=w16    50007
@@ -234,23 +238,26 @@ Assessment Outcome & Goal Setting
 
 Basic Service Plan
     [Tags]    Tag9
-    Open Browser    ${url}    browser=firefox
-    HSU Landing page
+    Comment    Open Browser    ${url}    browser=firefox
+    Comment    HSU Landing page
     ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
-    click Link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div[1]/div/div[2]/div/a[7]
+    Comment    click Link    partial link=Basic Service Plan
     ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
     Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
     sleep    2 sec
     select from list by value    xpath=.//*[@id='w12']    196056
     click Button    xpath=.//*[@id='btnConsentVerballyObtained']
+    sleep    1 sec
 
 Add Clinical Consent
-    Click Link    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]/a
+    [Tags]    tag13
+    go to    ${location}
     click link    partial link=Add Clinical Consent
     click button    id=digitalClinicalConsentProcessBtn
+    sleep    1 sec
     click button    id=saveImagedrawingEditor
-    click button    id=submitButton confirm
+    click button    id=btnCancel
 
 Primary Financial Assessment
     [Tags]    Tag10
@@ -318,8 +325,16 @@ Registration test
     [Tags]    ta
     Login
     HSU Registration legal
+    sleep    1 sec
     HSU Registration consent
-    HSU registration Anonymous
+    Comment    HSU registration Anonymous
+
+HCD
+    [Tags]    tata
+    Comment    HSU Landing page
+    ${DATA}    Get file    Test.txt
+    ${Data1}    Split to lines    ${DATA}    1    3
+    Log to console    ${Data1}
 
 *** Keywords ***
 HSU Landing page
@@ -334,6 +349,8 @@ HSU Landing page
     run keyword if    ${expression}    click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
     ...    ELSE    Program enrollment
     sleep    2 sec
+    ${location}    get location
+    set global variable    ${location}
     ${expression1}    run keyword and return status    element should be visible    partial link=Stump Evaluation
     run keyword if    ${expression1}    get title
     ...    ELSE    visit start
@@ -350,6 +367,12 @@ Program enrollment
     click button    xpath=/html/body/div[1]/div[2]/div/div/button
     wait until page contains    Enroll HSU to program    error=no such element exists
     select from list by value    id=programId-field    2
+    input text    id=enrollmentDate-display    02/05/2015
+    click button    id=enrollProgramBtn
+    sleep    2 sec
+    click button    xpath=/html/body/div[1]/div[2]/div/div/button
+    wait until page contains    Enroll HSU to program    error=no such element exists
+    select from list by value    id=programId-field    1
     input text    id=enrollmentDate-display    02/05/2015
     click button    id=enrollProgramBtn
     sleep    2 sec
@@ -381,7 +404,7 @@ HSU Registration consent
     select from list by value    id=confirmConsent-field    registrationapp.person.confirm_paperconsent
     click button    id=confirmConsentBtn
     click button    id=confirmLegalBasis
-    input text    id=fName-field    Ashish
+    input text    id=fName-field    Rajesh
     input text    id=mName-field    Kumar
     input text    id=lName-field    Jain
     input text    id=birthDate-display    15/02/2017
@@ -401,6 +424,9 @@ HSU Registration consent
     input text    id=relative_phone-0    54545454545545
     click button    id=next-step-3
     sleep    3 sec
+    ${popup}    run keyword and return status    Page Should Contain link    xpath=/html/body/div[1]/div[2]/div/div/div[9]/div/div/div/div[2]/div/div/table/tbody/tr/td[6]/a
+    run keyword if    ${popup}    click button    xpath=/html/body/div[1]/div[2]/div/div/div[9]/div/div/div/div[3]/button
+    sleep    1 sec
     click button    id=cnfRegAnother
     sleep    5 sec
 
@@ -409,7 +435,7 @@ HSU Registration Legal
     sleep    3 sec
     select radio button    legalBasis    Legitimate interest of the ICRC
     click button    id=next-step-1
-    input text    id=fName-field    Ashish
+    input text    id=fName-field    Rajnish
     input text    id=mName-field    Kumar
     input text    id=lName-field    Jain
     input text    id=birthDate-display    22/01/2016
@@ -422,16 +448,16 @@ HSU Registration Legal
     input text    id=languages-field    Hindi
     select checkbox    id=not_applicable
     clear element text    id=adminLevel4-field
-    input text    id=adminLevel4-field    level4
+    input text    id=adminLevel4-field    level2
     input text    id=street-field    street
     select from list by value    id=relationship_type-0    8d919b58-c2cc-11de-8d13-0010c6dffd0f-B
     input text    id=relative_name-0    Ashish
     input text    id=relative_phone-0    54545454545545
     click button    id=next-step-3
     sleep    3 sec
-    Comment    ${popup}    run keyword and return status    page should contain    Print HSU ID Card
-    Comment    run keyword if    ${popup}    click button    id=cnfRegAnother    ElSE    click button
-    ...    xpath=/html/body/div[1]/div[2]/div/div/div[8]/div/div/div/div[3]/button
-    sleep    3 sec
+    ${popup}    run keyword and return status    Page Should Contain link    xpath=/html/body/div[1]/div[2]/div/div/div[9]/div/div/div/div[2]/div/div/table/tbody/tr/td[6]/a
+    run keyword if    ${popup}    click button    xpath=/html/body/div[1]/div[2]/div/div/div[9]/div/div/div/div[3]/button
+    sleep    1 sec
     click button    id=cnfRegAnother
-    sleep    5 sec
+    Comment    Log to console    ${popup}
+    sleep    2 sec
