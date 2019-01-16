@@ -22,8 +22,17 @@ ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
 ...               Student    Unemployed/Non-Active    Student    Housekeeper    Deminer    Infant/Child/Attending School
 
 *** Test Cases ***
+Registration test
+    [Tags]    ta
+    Login
+    HSU Registration legal
+    sleep    1 sec
+    HSU Registration consent
+    HSU registration Anonymous
+
 General Information
     [Tags]    Tag1
+    Open Browser    ${url}    browser=firefox
     HSU Landing page
     Click Link    partial link=General Information
     Comment    click button    id=saveAndContinue
@@ -327,14 +336,6 @@ Financing Decision
     click button    id=pendingFinancing
     wait until page contains    Encounters
 
-Registration test
-    [Tags]    ta
-    Login
-    HSU Registration legal
-    sleep    1 sec
-    HSU Registration consent
-    Comment    HSU registration Anonymous
-
 HCD
     [Tags]    tata
     Comment    HSU Landing page
@@ -465,5 +466,4 @@ HSU Registration Legal
     run keyword if    ${popup}    click button    xpath=/html/body/div[1]/div[2]/div/div/div[9]/div/div/div/div[3]/button
     sleep    1 sec
     click button    id=cnfRegAnother
-    Comment    Log to console    ${popup}
     sleep    2 sec
