@@ -91,17 +91,16 @@ Condition
     sleep    3 sec
     select from list by value    id=select-conditionType-1    347045
     sleep    1 sec
-    select from list by value    id=select-levelSelection-1    347047
+    select from list by value    id=select-levelSelection-1    1990875
     sleep    1 sec
+    select from list by value    id=select-levelSelectionRest-1    347197
     select from list by value    id=w10    347226
     sleep    1 sec
     select from list by value    id=select-causeSelection-1    347054
     sleep    1 sec
-    Comment    select from list by value    id=select-causeSelection-1    347171
+    select from list by value    id=w12    347166
     sleep    1 sec
-    Comment    select from list by value    id=w12    347177
-    sleep    1 sec
-    Comment    select from list by value    id=w14    347181
+    select from list by value    id=w14    347175
     select from list by value    id=w158    1970482
     select from list by value    id=w160    1970528
     click button    id=saveAndContinue
@@ -278,7 +277,7 @@ Primary Financial Assessment
     [Tags]    Tag10
     Open Browser    ${url}    browser=firefox
     HSU Landing page
-    click Link    xpath=//*[@id="page-content-wrapper"]/div/div/div[5]/div[1]/div/div[2]/div/a[9]
+    click Link    partial link=Primary Financial Assessment
     input Text    id=w14    55
     Select from list by value    id=w106    1065
     ${Totalcost}    get value    id=w104
