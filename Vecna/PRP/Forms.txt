@@ -10,9 +10,9 @@ Library           ExcelLibrary
 
 *** Variables ***
 ${url}            http://icrcnightly.vecnacares.org/openmrs/login.htm
-@{Muscle_rangeofmotion}    Select    Hard    Soft
-@{muscle_musclestrength}    Select    0    1    2    3    4    5
-@{Muscle_stability}    Select    Yes    No
+@{Muscle_rangeofmotion}    Please Select    Hard    Soft
+@{muscle_musclestrength}    Please Select    0    1    2    3    4    5
+@{Muscle_stability}    Please Select    Yes    No
 @{Stump_stumpsize}    Please Select    Long    Medium    Short
 @{Stump_stumpshape}    Please Select    Conical    Cylindrical    Bulbous
 @{Stump_muscletone}    Please Select    Normal    Increased    Decreased
@@ -32,7 +32,7 @@ Registration test
 
 General Information
     [Tags]    Tag1
-    Open Browser    ${url}    browser=firefox
+    Comment    Open Browser    ${url}    browser=firefox
     HSU Landing page
     Click Link    partial link=General Information
     Comment    click button    id=saveAndContinue
@@ -60,13 +60,15 @@ General Information
     ${Data1}    Evaluate    @{General_assessmenttype}==@{Data1}
     run keyword if    ${Data1}    get title
     ...    ELSE    Fail    msg=here is failure
-    click button    id=saveAndContinue
+    click button    id=confirmAndHsuBtn
     sleep    5 sec
 
 Basic Socioeconomic
     [Tags]    Tag2
     Comment    HSU Landing page
     Comment    click link    partial link=Basic Socioeconomic Assessment
+    go to    ${location}
+    click link    partial link=Basic Socioeconomic Assessment
     select from list by value    id=w8    50007
     select from list by value    id=w12    50007
     select from list by value    id=w16    50007
@@ -79,7 +81,7 @@ Basic Socioeconomic
     select from list by value    id=w44    50079
     select from list by value    id=w48    50079
     select from list by value    id=w52    50079
-    click Button    id=btnSaveRedirectConditionsForm
+    click Button    id=btnSaveAndRedirectHSULandingPage
     sleep    5 sec
 
 Condition
@@ -109,7 +111,8 @@ Condition
 Stump
     [Tags]    Tag4
     Comment    HSU Landing page
-    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[1]
+    go to    ${location}
+    Click Link    partial link=Stump Evaluation
     select from list by value    xpath=.//*[@id='w8']    174525
     select from list by value    xpath=.//*[@id='w10']    174529
     select from list by value    xpath=.//*[@id='w12']    1066
@@ -170,37 +173,64 @@ Stump
     ...    ELSE    Fail    msg=here is failure
     run keyword if    ${data12}    get title
     ...    ELSE    Fail    msg=here is failure
-    click button    xpath=.//*[@id='saveContinueButton']
+    click button    id=btnSaveAndRedirectHSULandingPage
     sleep    5 sec
 
-Muscle & ROM
-    [Tags]    Tag5
-    Comment    Open Browser    ${url}    browser=firefox
+Muscle & ROM-upper limb
+    [Tags]    Tag16
     Comment    HSU Landing page
-    Comment    click link    partial link=Muscle and ROM Evaluation
+    go to    ${location}
+    click link    partial link=Muscle and ROM-Upper Limb
     Select from list by value    xpath=.//*[@id='w16']    186005
     Select from list by value    xpath=.//*[@id='w40']    186005
-    Select from list by value    xpath=.//*[@id='w172']    186058
     @{ashish}    get list items    id=w16
     @{ashish1}    get list items    id=w12
-    @{ashish2}    get list items    id=w80
     ${ashish}    Evaluate    @{ashish}==@{Muscle_rangeofmotion}
     ${ashish1}    Evaluate    @{ashish1}==@{muscle_musclestrength}
-    ${ashish2}    Evaluate    @{ashish2}==@{Muscle_stability}
     run keyword if    ${ashish}    get title
     ...    ELSE    Fail    msg=here is failure
     run keyword if    ${ashish1}    get title
     ...    ELSE    Fail    msg=here is failure
-    run keyword if    ${ashish2}    get title
+    click button    id=btnSaveAndRedirectHSULandingPage
+    Comment    Log to console    @{ashish}
+    sleep    5 sec
+
+Muscle & ROM-lower limb
+    [Tags]    Tag5
+    Comment    HSU Landing page
+    go to    ${location}
+    click link    partial link=Muscle and ROM - Lower Limb
+    Select from list by value    xpath=.//*[@id='w16']    186005
+    Select from list by value    xpath=.//*[@id='w40']    186005
+    Select from list by value    xpath=.//*[@id='w170']    186014
+    @{ashish}    get list items    id=w16
+    @{ashish1}    get list items    id=w12
+    ${ashish}    Evaluate    @{ashish}==@{Muscle_rangeofmotion}
+    ${ashish1}    Evaluate    @{ashish1}==@{muscle_musclestrength}
+    run keyword if    ${ashish}    get title
     ...    ELSE    Fail    msg=here is failure
-    click button    xpath=.//*[@id='saveAndContinue']
+    run keyword if    ${ashish1}    get title
+    ...    ELSE    Fail    msg=here is failure
+    click button    id=btnSaveAndRedirectHSULandingPage
+    Comment    Log to console    @{ashish}
+    sleep    5 sec
+
+Muscle & ROM-trunk
+    [Tags]    Tag14
+    Comment    HSU Landing page
+    go to    ${location}
+    click link    partial link=Muscle and ROM - Trunk
+    Select from list by value    xpath=.//*[@id='w12']    186012
+    Select from list by value    xpath=.//*[@id='w56']    186012
+    click button    id=btnSaveAndRedirectHSULandingPage
     Comment    Log to console    @{ashish}
     sleep    5 sec
 
 Pain assessment
     [Tags]    Tag6
     Comment    HSU Landing page
-    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[3]
+    go to    ${location}
+    Click Link    partial link=Pain Assessment
     Input Text    xpath=.//*[@id='w8']    5
     Select from list by value    id=w10    1990633
     Select from list by value    id=w12    1990624
@@ -219,13 +249,14 @@ Pain assessment
     sleep    2 sec
     Comment    Input Text    xpath=.//*[@id='marker1_data']/textarea    ashish
     Comment    click link    xpath=.//*[@id='marker1_data']/span/a[1]
-    click Button    id=formSubmission
+    click Button    id=btnSaveAndRedirectHSULandingPage
     sleep    10 sec
 
-Functional Activity
+Functional Activities- Upper Limb
     [Tags]    Tag7
     Comment    HSU Landing page
-    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[4]
+    go to    ${location}
+    Click Link    partial link=Functional Activities- Upper Limb
     Select from list by value    xpath=.//*[@id='w8']    50053
     Select from list by value    xpath=.//*[@id='w12']    50053
     Select from list by value    xpath=.//*[@id='w16']    50053
@@ -234,17 +265,39 @@ Functional Activity
     Select from list by value    xpath=.//*[@id='w28']    50053
     Select from list by value    xpath=.//*[@id='w32']    50053
     Select from list by value    xpath=.//*[@id='w36']    50053
-    Select from list by value    xpath=.//*[@id='w40']    196005
-    Select from list by value    xpath=.//*[@id='w44']    196005
-    Select from list by value    xpath=.//*[@id='w48']    196005
-    Select from list by value    xpath=.//*[@id='w52']    196005
+    Select from list by value    xpath=.//*[@id='w40']    50053
+    Select from list by value    xpath=.//*[@id='w44']    50053
+    Select from list by value    xpath=.//*[@id='w48']    50053
+    Select from list by value    xpath=.//*[@id='w52']    50053
+    click Button    xpath=.//*[@id='formSaveAndContinue']
+    sleep    5 sec
+
+Functional Activities - Lower Limb
+    [Tags]    Tag15
+    Comment    HSU Landing page
+    go to    ${location}
+    Click Link    partial link=Functional Activities - Lower Limb
+    Select from list by value    xpath=.//*[@id='w8']    50053
+    Select from list by value    xpath=.//*[@id='w12']    50053
+    Select from list by value    xpath=.//*[@id='w16']    50053
+    Select from list by value    xpath=.//*[@id='w20']    50053
+    Select from list by value    xpath=.//*[@id='w24']    50053
+    Select from list by value    xpath=.//*[@id='w28']    50053
+    Select from list by value    xpath=.//*[@id='w32']    50053
+    Select from list by value    xpath=.//*[@id='w36']    50053
+    Select from list by value    xpath=.//*[@id='w40']    50053
+    Select from list by value    xpath=.//*[@id='w44']    196006
+    Select from list by value    xpath=.//*[@id='w48']    196007
+    Select from list by value    xpath=.//*[@id='w52']    196006
+    Select from list by value    xpath=.//*[@id='w56']    196006
     click Button    xpath=.//*[@id='formSaveAndContinue']
     sleep    5 sec
 
 Assessment Outcome & Goal Setting
     [Tags]    Tag8
     Comment    HSU Landing page
-    Comment    click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[5]
+    go to    ${location}
+    click Link    partial link=Assessment Outcome And Goal Setting
     ${outcomesummary}    Input Text    xpath=.//*[@id='w8']    Testing1
     ${teamobjective}    Input Text    xpath=.//*[@id='w10']    Testing2
     Click Button    xpath=.//*[@id='btnBasicServicePlan']
@@ -254,8 +307,9 @@ Basic Service Plan
     [Tags]    Tag9
     Comment    Open Browser    ${url}    browser=firefox
     Comment    HSU Landing page
+    go to    ${location}
     Comment    ${name}=    Get Text    xpath=/html/body/div[1]/div[2]/div/div/div[3]/div/div/div/div/div[1]/div[2]/div[1]
-    Comment    click Link    partial link=Basic Service Plan
+    click Link    partial link=Basic Service Plan
     Comment    ${nameonBasicForm}    GetText    xpath=/html/body/div[1]/div[2]/div/div/div[4]/form/htmlform/div[2]/div[2]/div/div[1]/div[3]/div[1]/div
     Comment    Should be equal    ${name}    ${nameonBasicForm}
     select from list by value    xpath=.//*[@id='w10']    196032
@@ -275,8 +329,9 @@ Add Clinical Consent
 
 Primary Financial Assessment
     [Tags]    Tag10
-    Open Browser    ${url}    browser=firefox
-    HSU Landing page
+    Comment    Open Browser    ${url}    browser=firefox
+    Comment    HSU Landing page
+    go to    ${location}
     click Link    partial link=Primary Financial Assessment
     input Text    id=w14    55
     Select from list by value    id=w106    1065
@@ -290,7 +345,8 @@ Primary Financial Assessment
 Secondary Financial Assessment
     [Tags]    Tag11
     Comment    HSU Landing page
-    Comment    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[12]
+    go to     ${location}
+    Click Link    xpath=.//*[@id='page-content-wrapper']/div/div/div[5]/div[1]/div/div[2]/div/a[12]
     Input text    id=w8    10
     Input text    id=w10    10
     Input text    id=w12    10
@@ -342,6 +398,22 @@ HCD
     ${Data1}    Split to lines    ${DATA}    1    3
     Log to console    ${Data1}
 
+Excle
+    [Tags]    excle
+    Open Excel    C:\\Users\\ashish\\Desktop\\rpa\\Lesson 12 - practice 1 - exceptionsSheet.xls
+    ${ashish}    get column values    Sheet1    1
+    Log to Console    ${ashish}
+    ${Data1}    get row count    Sheet1
+    ${Data2}    get column count    Sheet1
+    : FOR    ${i}    IN RANGE    ${Data2}    ${Data1}
+    \    ${ashish1}    read cell data by coordinates    Sheet1    1    2
+    \    Input Text    xpath=.//*[@id='username']    ${ashish1}
+    \    sleep    2 sec
+    \    clear element text    xpath=.//*[@id='username']
+    Log to console    ${ashish1}
+    Log to console    ${Data1}
+    Log to console    ${Data2}
+
 *** Keywords ***
 HSU Landing page
     [Tags]
@@ -375,20 +447,20 @@ Program enrollment
     select from list by value    id=programId-field    2
     input text    id=enrollmentDate-display    02/05/2015
     click button    id=enrollProgramBtn
-    sleep    2 sec
+    sleep    3 sec
     click button    xpath=/html/body/div[1]/div[2]/div/div/button
     wait until page contains    Enroll HSU to program    error=no such element exists
     select from list by value    id=programId-field    1
     input text    id=enrollmentDate-display    02/05/2015
     click button    id=enrollProgramBtn
-    sleep    2 sec
+    sleep    3 sec
     click link    xpath=/html/body/div[1]/div[2]/div/div/div[5]/div/table/tbody/tr[1]/td[7]/a
 
 visit start
     Mouse over    id=dLabel
     click element    id=dLabel
-    mouse down    id=org.openmrs.module.coreapps.createVisit
-    click element    id=org.openmrs.module.coreapps.createVisit
+    mouse down    id=org.openmrs.module.icrccustomizations.createVisit
+    click element    id=org.openmrs.module.icrccustomizations.createVisit
     wait until page contains    Start a visit
     click button    id=start-visit-with-visittype-confirm
     sleep    3 sec
